@@ -3,6 +3,10 @@
 *.iml
 *.ipr
 *.iws
+target/
 # Gradle files
 .gradle/
 build/
+# Eclipse files
+.classpath
+.project
