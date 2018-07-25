@@ -7,6 +7,11 @@
     <groupId>com.aiguibin</groupId>
     <artifactId>Aurora</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>aiguibin-spring-cfg</module>
+        <module>aiguibin-elastic-search</module>
+        <module>aiguibin-common-core</module>
+    </modules>
     <packaging>pom</packaging>
     <!-- 项目的名称, Maven产生的文档用 -->
     <name>aiguibin-maven</name>
