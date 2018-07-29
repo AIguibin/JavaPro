@@ -298,17 +298,6 @@
     <!--插件远程仓库-->
     <pluginRepositories>
         <pluginRepository>
-            <id>JCenter</id>
-            <name>JCenter</name>
-            <url>https://jcenter.bintray.com/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
             <id>mvn</id>
             <name>mvn.repository</name>
             <url>https://mvnrepository.com/</url>
@@ -319,6 +308,28 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
+        <pluginRepository>
+            <id>JCenter</id>
+            <name>JCenter</name>
+            <url>https://jcenter.bintray.com/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <!--<pluginRepository>-->
+            <!--<id>mvn</id>-->
+            <!--<name>mvn.repository</name>-->
+            <!--<url>https://mvnrepository.com/</url>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+            <!--</snapshots>-->
+        <!--</pluginRepository>-->
         <pluginRepository>
             <id>central</id>
             <name>Central Repository</name>
