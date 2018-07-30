@@ -7,11 +7,6 @@
     <groupId>com.aiguibin</groupId>
     <artifactId>Aurora</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>aiguibin-spring-cfg</module>
-        <module>aiguibin-common-core</module>
-        <module>aiguibin-elastic-search</module>
-    </modules>
     <packaging>pom</packaging>
     <!-- 项目的名称, Maven产生的文档用 -->
     <name>aiguibin-maven</name>
@@ -35,7 +30,12 @@
         <url>https://github.com/xxxx</url>
     </organization>
     <!--模块名称-->
-
+    <modules>
+        <module>aiguibin-spring-cfg</module>
+        <module>aiguibin-common-core</module>
+        <module>aiguibin-spring-boot</module>
+        <module>aiguibin-elastic-search</module>
+    </modules>
     <!--项目依赖-->
     <dependencies>
         <dependency>
@@ -110,9 +110,19 @@
             <version>3.1</version>
         </dependency>
         <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.47</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.9</version>
         </dependency>
     </dependencies>
     <!--依赖管理-->
@@ -148,6 +158,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -322,11 +337,11 @@
             <id>central</id>
             <name>Central Repository</name>
             <url>http://repo1.maven.org/maven2/</url>
-            <layout>default</layout>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
             <releases>
+                <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </releases>
         </pluginRepository>
