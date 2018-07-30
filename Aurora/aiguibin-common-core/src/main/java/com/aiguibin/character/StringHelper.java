@@ -7,30 +7,78 @@ package com.aiguibin.character;
 public class StringHelper {
     /**
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 字符串为isNull
      */
     public static boolean isNull(String str){
-        //TODO
-        return true;
+        if (str==null
+                || "null".equals(str.trim())
+                || "NULL".equals(str.trim())){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
     /**
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 字符串isNotNull
      */
-    public static boolean isKong(String str){
-        //TODO
-        return true;
+    public static boolean isNotNull(String str){
+        if (isNull(str)){
+            return false;
+        }else{
+            return true;
+        }
     }
     /**
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 字符串isKong
+     */
+    public static boolean isKong(String str){
+        if (str.trim()=="" ||"".equals(str.trim())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     *
+     * @param str 字符串
+     * @return 字符串isNotKong
+     */
+    public static boolean isNotKong(String str){
+        if (isKong(str)){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    /**
+     *
+     * @param str 字符串
+     * @return 字符串isEmpty
      */
     public static boolean isEmpty(String str){
-        //TODO
-        return true;
+        if (isNull(str) || isKong(str)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    /**
+     *
+     * @param str 字符串
+     * @return 字符串isNotEmpty
+     */
+    public static boolean isNotEmpty(String str){
+        if (isEmpty(str)){
+            return false;
+        }else {
+            return true;
+        }
     }
 }
