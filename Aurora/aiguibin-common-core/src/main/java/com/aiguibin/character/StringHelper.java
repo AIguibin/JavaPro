@@ -1,4 +1,7 @@
 package com.aiguibin.character;
+
+import java.text.SimpleDateFormat;
+
 /**
  * 描述： 字符串工具类
  *
