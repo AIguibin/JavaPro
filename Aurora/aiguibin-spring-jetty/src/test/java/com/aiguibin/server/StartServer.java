@@ -1,7 +1,9 @@
-package com.aiguibin.jetty.server;
+package com.aiguibin.server;
 
-import com.aiguibin.jetty.config.JettyConfig;
+import com.aiguibin.config.RestConfig;
+import com.aiguibin.jetty.config.ServerConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 /**
  * 描述： 
  *
@@ -9,7 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class StartServer {
     public static void main(String[] args) throws Exception {
-        AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(JettyConfig.class);
+        AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext(RestConfig.class);
         System.out.println("Press any key to shutdown......");
         System.in.read();
         context.close();
