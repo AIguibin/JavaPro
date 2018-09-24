@@ -10,3 +10,6 @@ build/
 # Eclipse files
 .classpath
 .project
+# dailylog
+logs/
+
