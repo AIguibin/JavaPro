@@ -1,4 +1,4 @@
-package com.aiguibin.datetime;
+package com.aiguibin.common.datetime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
