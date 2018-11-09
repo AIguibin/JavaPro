@@ -29,25 +29,4 @@ public class RestConfig {
     public List<Class<?>> servletClasses(){
         return Arrays.asList(FirstServlet.class);
     }
-    ///**
-    // * 初始化线程池
-    // *
-    // * @return ThreadFactory
-    // */
-    //@Bean("initThreadFactory")
-    //public ThreadFactory initThreadFactory() {
-    //    ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("demo-pool-%d").build();
-    //    ExecutorService singleThreadPool = new ThreadPoolExecutor(3, 10,
-    //            10000L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(1024),
-    //            namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
-    //    singleThreadPool.execute(new Runnable() {
-    //        @Override
-    //        public void run() {
-    //            System.out.println(Thread.currentThread().getName());
-    //        }
-    //    });
-    //    singleThreadPool.shutdown();
-    //
-    //    return namedThreadFactory;
-    //}
 }

@@ -1,7 +1,7 @@
-package com.aiguibin.filehelper;
+package com.aiguibin.common.filehelper;
 
-import com.aiguibin.character.StringHelper;
-import com.aiguibin.datetime.DateHelper;
+import com.aiguibin.common.character.StringHelper;
+import com.aiguibin.common.datetime.DateHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import sun.misc.BASE64Decoder;

@@ -204,7 +204,7 @@ public class ThreadPools {
      * super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
      * new DelayedWorkQueue());
      * }
-     * public class ScheduledThreadPoolExecutor extends ThreadPoolExecutor implements ScheduledExecutorService
+     * public class ScheduledThreadPoolExecutor extends ThreadPoolExecutor impl ScheduledExecutorService
      *
      * @return
      */

@@ -1,4 +1,4 @@
-package com.aiguibin.network;
+package com.aiguibin.common.network;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

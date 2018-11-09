@@ -1,4 +1,4 @@
-package com.aiguibin.character;
+package com.aiguibin.common.character;
 
 import java.io.IOException;
 import java.io.StringReader;
