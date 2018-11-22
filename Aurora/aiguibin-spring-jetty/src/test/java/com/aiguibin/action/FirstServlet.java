@@ -1,6 +1,6 @@
 package com.aiguibin.action;
 
-import com.aiguibin.character.StringHelper;
+import com.aiguibin.common.character.StringHelper;
 import com.aiguibin.jetty.servlet.ServletServer;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.logging.Log;

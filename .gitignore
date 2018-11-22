@@ -23,6 +23,9 @@ build/
 # IDEs Eclipse files
 .classpath
 .project
+# dailylog
+logs/
+
 
 # IDE - VSCode
 .vscode/*

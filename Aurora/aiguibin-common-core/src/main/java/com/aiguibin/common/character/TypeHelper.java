@@ -1,15 +1,12 @@
-package com.aiguibin.jetty.helper;
+package com.aiguibin.common.character;
 
-import com.aiguibin.common.character.StringHelper;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.aiguibin.common.constant.RegexConstant;
 
 import java.math.BigInteger;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
 
 /**
  * 描述：
@@ -17,67 +14,6 @@ import java.util.regex.Pattern;
  * @author AIguibin Date time 2018/8/20 16:27
  */
 public class TypeHelper {
-    /**
-     * 常量定义：KB
-     */
-    public static final long KB = 1024;
-    /**
-     * 常量定义：MB
-     */
-    public static final long MB = KB * KB;
-    /**
-     * 常量定义：GB
-     */
-    public static final long GB = KB * MB;
-    /**
-     * 常量定义：TB
-     */
-    public static final long TB = KB * GB;
-    /**
-     * 常量定义：PB
-     */
-    public static final long PB = KB * TB;
-    /**
-     * 常量定义：SEC - 秒
-     */
-    public static final long SEC = 1000;
-    /**
-     * 常量定义：MIN - 分
-     */
-    public static final long MIN = 60 * SEC;
-    /**
-     * 常量定义：HOUR - 小时
-     */
-    public static final long HOUR = 60 * MIN;
-    /**
-     * 常量定义：DAY - 天
-     */
-    public static final long DAY = 24 * HOUR;
-    /**
-     * 常量定义：WEEK - 周
-     */
-    public static final long WEEK = 7 * DAY;
-    /**
-     * 常量定义：MON - 月
-     */
-    public static final long MON = 30 * DAY;
-    /**
-     * 常量定义：QUAR - 季
-     */
-    public static final long QUAR = 3 * MON;
-    /**
-     * 常量定义：YEAR - 年
-     */
-    public static final long YEAR = 12 * MON;
-    private static final Log logger = LogFactory.getLog(TypeHelper.class);
-    private static final String regex = ",(?=([^\"^']*\"[^\"^']*\")*[^\"^']*$)";
-    private static final Pattern SPACE_PATTERN = Pattern.compile(
-            "([0-9]+([.,][0-9]+)?)\\s*(|K|M|G|T|P)B?",
-            Pattern.CASE_INSENSITIVE);
-    private static final Pattern TIME_PERIOD_PATTERN = Pattern.compile(
-            "([0-9]+([.,][0-9]+)?)\\s*(|SEC|MIN|HOUR|DAY|WEEK|MON|QUAR|YEAR)",
-            Pattern.CASE_INSENSITIVE);
-
     /**
      * 默认的构造函数
      */
@@ -218,7 +154,7 @@ public class TypeHelper {
     public static List<String> csv2List(String line) {
         List<String> list = new ArrayList<>();
         if (!StringHelper.isEmpty(line)) {
-            String[] segs = line.split(regex, -1);
+            String[] segs = line.split(RegexConstant.regex, -1);
             list.addAll(Arrays.asList(segs));
         }
         return list;
@@ -426,229 +362,5 @@ public class TypeHelper {
             bs[index / 2] = Byte.valueOf(input.substring(index, 2), 16);
         }
         return bs;
-    }
-
-    /**
-     * 将字符串转换为boolean值，如果不是合法的boolean字符串，则使用默认值。
-     *
-     * @param str          字符串
-     * @param defaultValue 默认值
-     * @return boolean值
-     */
-    public static boolean string2Boolean(String str, boolean defaultValue) {
-        if ("true".equalsIgnoreCase(str)) {
-            return true;
-        } else if ("false".equalsIgnoreCase(str)) {
-            return false;
-        } else {
-            return defaultValue;
-        }
-    }
-
-    /**
-     * 将字符串转换为int值，如果不是合法的数值，则使用默认值。
-     *
-     * @param str          字符串
-     * @param radix        数制，支持二进制、八进制、十进制、十六进制
-     * @param defaultValue 默认int值
-     * @return int值
-     */
-    public static int string2Int(String str, Radix radix, int defaultValue) {
-        try {
-            if (!StringHelper.isEmpty(str)) {
-                String check = str.toLowerCase();
-                if (check.startsWith("0b") || (check.startsWith("08") && radix == Radix.Octonary)
-                        || check.startsWith("0x")) {
-                    str = str.substring(2);
-                }
-                return Integer.parseInt(str, radix.getRadix());
-            }
-        } catch (NumberFormatException ex) {
-            if (logger.isWarnEnabled()) {
-                logger.warn(String.format("Parse %s to int fail, radix: %s, default: %d.", str, radix.name(),
-                        defaultValue));
-            }
-        }
-        return defaultValue;
-    }
-
-    /**
-     * 将字符串转换为long值，如果不是合法的数值，则使用默认值。
-     *
-     * @param str          字符串
-     * @param radix        数制，支持二进制、八进制、十进制、十六进制
-     * @param defaultValue 默认long值
-     * @return long值
-     */
-    public static long string2Long(String str, Radix radix, long defaultValue) {
-        try {
-            if (!StringHelper.isEmpty(str)) {
-                String check = str.toLowerCase();
-                if (check.startsWith("0b") || (check.startsWith("08") && radix == Radix.Octonary) || check.startsWith("0x")) {
-                    str = str.substring(2);
-                }
-                return Long.parseLong(str, radix.getRadix());
-            }
-        } catch (NumberFormatException ex) {
-            if (logger.isWarnEnabled()) {
-                logger.warn(String.format("Parse %s to long fail, radix: %s, default: %d.", str, radix.name(),
-                        defaultValue));
-            }
-        }
-        return defaultValue;
-    }
-
-    /**
-     * 将字符串转换为float值，如果不是合法的数值，则使用默认值。
-     *
-     * @param str          字符串
-     * @param defaultValue 默认float值
-     * @return float值
-     */
-    public static float string2Float(String str, float defaultValue) {
-        try {
-            if (!StringHelper.isEmpty(str)) {
-                return Float.parseFloat(str);
-            }
-        } catch (NumberFormatException ex) {
-            if (logger.isWarnEnabled()) {
-                logger.warn(String.format("Parse %s to float fail, default: %f.", str, defaultValue));
-            }
-        }
-        return defaultValue;
-    }
-
-    /**
-     * 将字符串转换为double值，如果不是合法的数值，则使用默认值。
-     *
-     * @param str          字符串
-     * @param defaultValue 默认double值
-     * @return double值
-     */
-    public static double string2Double(String str, double defaultValue) {
-        try {
-            if (!StringHelper.isEmpty(str)) {
-                return Double.parseDouble(str);
-            }
-        } catch (NumberFormatException ex) {
-            if (logger.isWarnEnabled()) {
-                logger.warn(String.format("Parse %s to double fail, default: %f.", str, defaultValue));
-            }
-        }
-        return defaultValue;
-    }
-
-    /**
-     * 将字符串转换为空间大小，如果不是合法的空间大小字符串，则使用默认值。
-     *
-     * @param size         空间大小字符串
-     * @param defaultValue 默认值
-     * @return 空间大小
-     */
-    public static long string2Size(String size, long defaultValue) {
-        if (StringHelper.isEmpty(size)) {
-            return defaultValue;
-        }
-        final Matcher matcher = SPACE_PATTERN.matcher(size);
-        if (matcher.matches()) {
-            try {
-                final double value = NumberFormat.getNumberInstance(Locale.getDefault()).parse(matcher.group(1)).doubleValue();
-                final String units = matcher.group(3);
-                if (units.isEmpty()) {
-                    return (long) value;
-                } else if (units.equalsIgnoreCase("K")) {
-                    return (long) (value * KB);
-                } else if (units.equalsIgnoreCase("M")) {
-                    return (long) (value * MB);
-                } else if (units.equalsIgnoreCase("G")) {
-                    return (long) (value * GB);
-                } else if (units.equalsIgnoreCase("T")) {
-                    return (long) (value * TB);
-                } else if (units.equalsIgnoreCase("P")) {
-                    return (long) (value * PB);
-                }
-            } catch (final ParseException e) {
-                if (logger.isWarnEnabled()) {
-                    logger.warn(String.format("Parse %s to int fail, default: %d.", size, defaultValue));
-                }
-            }
-        }
-        return defaultValue;
-    }
-
-    /**
-     * 将字符串转换为时间周期值，单位为毫秒，如果不是合法的时间周期字符串，则使用默认值。
-     *
-     * @param timePeriod   时间周期字符串
-     * @param defaultValue 默认值
-     * @return 时间周期，单位毫秒
-     */
-    public static long string2TimePeriod(String timePeriod, long defaultValue) {
-        if (StringHelper.isEmpty(timePeriod)) {
-            return defaultValue;
-        }
-        final Matcher matcher = TIME_PERIOD_PATTERN.matcher(timePeriod);
-        if (matcher.matches()) {
-            try {
-                final double value = NumberFormat.getNumberInstance(Locale.getDefault()).parse(matcher.group(1))
-                        .doubleValue();
-                final String units = matcher.group(3);
-                if (units.isEmpty()) {
-                    return (long) value;
-                } else if (units.equalsIgnoreCase("SEC")) {
-                    return (long) (value * SEC);
-                } else if (units.equalsIgnoreCase("MIN")) {
-                    return (long) (value * MIN);
-                } else if (units.equalsIgnoreCase("HOUR")) {
-                    return (long) (value * HOUR);
-                } else if (units.equalsIgnoreCase("DAY")) {
-                    return (long) (value * DAY);
-                } else if (units.equalsIgnoreCase("WEEK")) {
-                    return (long) (value * WEEK);
-                } else if (units.equalsIgnoreCase("MON")) {
-                    return (long) (value * MON);
-                } else if (units.equalsIgnoreCase("QUAR")) {
-                    return (long) (value * QUAR);
-                } else if (units.equalsIgnoreCase("YEAR")) {
-                    return (long) (value * YEAR);
-                }
-            } catch (final ParseException e) {
-                if (logger.isWarnEnabled()) {
-                    logger.warn(String.format("Parse %s to time period fail, default: %d.", timePeriod, defaultValue));
-                }
-            }
-        }
-        return defaultValue;
-    }
-
-    /**
-     * 数制枚举
-     */
-    public enum Radix {
-        /**
-         * 二进制
-         */
-        Binary(2),
-        /**
-         * 八进制
-         */
-        Octonary(8),
-        /**
-         * 十进制
-         */
-        Decimal(10),
-        /**
-         * 十六进制
-         */
-        Hexadecimal(16);
-        int radix;
-
-        Radix(int radix) {
-            this.radix = radix;
-        }
-
-        int getRadix() {
-            return radix;
-        }
     }
 }

@@ -35,7 +35,7 @@ public class ServletServerFactory extends HttpServerFactory {
         String[] classesDefs = servletServerConfigBean.getServiceClasses();
         if (classesDefs == null || classesDefs.length <= 0) {
             if (logger.isWarnEnabled()) {
-                logger.warn("You not define any servlet classes.");
+                logger.warn("You not define any servlet constant.");
             }
             return null;
         } else {

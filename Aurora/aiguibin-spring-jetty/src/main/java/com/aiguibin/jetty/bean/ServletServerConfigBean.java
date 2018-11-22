@@ -29,7 +29,7 @@ public class ServletServerConfigBean extends HttpServerConfigBean {
     @Value("${servlet.responseHeaderSize:8K}")
     private String responseHeaderSizeString;
 
-    @Value("${servlet.service.classes:}")
+    @Value("${servlet.service.constant:}")
     private String serviceClasses;
 
     /**

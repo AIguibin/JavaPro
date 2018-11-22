@@ -29,7 +29,7 @@ public class RestfulServerConfigBean extends HttpServerConfigBean{
     @Value("${restful.responseHeaderSize:8K}")
     private String responseHeaderSizeString;
 
-    @Value("${restful.service.classes:}")
+    @Value("${restful.service.constant:}")
     private String serviceClasses;
 
     /**
