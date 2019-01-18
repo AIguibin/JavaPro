@@ -11,6 +11,13 @@
     <artifactId>aiguibin-common-core</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
     <build>
         <finalName>aiguibin-common-core</finalName>
     </build>

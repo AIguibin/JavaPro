@@ -15,6 +15,16 @@
     <name>aiguibin-frameweb-ssh Maven Webapp</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-spring-plugin</artifactId>
+        </dependency>
+    </dependencies>
     <build>
         <finalName>aiguibin-frameweb-ssh</finalName>
     </build>
