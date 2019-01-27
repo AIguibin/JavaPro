@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>WelcomeToJavaWorld</artifactId>
+        <groupId>com.aiguibin</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>aiguibin-frameweb-ssm</artifactId>
+    <packaging>war</packaging>
+
+    <name>aiguibin-frameweb-ssm-war</name>
+    <url>http://www.example.com</url>
+
+    <dependencies>
+        <!--数据库驱动-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--数据库连接池-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+        <!--MyBatis相关-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+        </dependency>
+        <!-- jsp/jstl/core 页面标签 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>aiguibin-frameweb-ssm</finalName>
+        <!--资源文件-->
+        <resources>
+            <resource>
+                <directory>src/main/resource</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/test/resource</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <httpConnector>
+                        <port>9999</port>
+                        <host>0.0.0.0</host>
+                        <!--
+                        <name></name>
+                         <idleTimeout></idleTimeout>
+                         -->
+                    </httpConnector>
+                    <!--自动刷新-->
+                    <!--If <scanIntervalSeconds> hot reloading when <reload> Default value is "automatic"-->
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <!--Useful when used in conjunction with the stop or run-forked goals.-->
+                    <stopKey>stop</stopKey>
+                    <stopPort>5555</stopPort>
+                    <!--Hit ENTER on the console to restart-->
+                    <reload>manual</reload>
+                    <dumpOnStart>true</dumpOnStart>
+                    <webApp>
+                        <!--${project.artifactId}-->
+                        <contextPath>/</contextPath>
+                        <!--<descriptor></descriptor>-->
+                    </webApp>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
