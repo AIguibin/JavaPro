@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class HelloWorld {
-    private static Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
-    //private static Log logger=LogFactory.getLog(HelloWorld.class);
+    // private static Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
+    private static Log logger=LogFactory.getLog(HelloWorld.class);
 
     /**
      * @return

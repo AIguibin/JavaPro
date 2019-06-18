@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="byName">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- 配置普通Java类 -->
     <!--
@@ -35,16 +37,16 @@
     </bean>-->
 
     <!-- 配置调度器工厂(SchedulerFactoryBean) -->
-    <bean name="startQuertz"
+    <!--<bean name="startQuertz"
           class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
           lazy-init="false" autowire="no">
         <property name="triggers">
             <list>
-                <!--<ref bean="quartzAJobTrigger"/>
-                <ref bean="quartzBJobTrigger"/>-->
+                &lt;!&ndash;<ref bean="quartzAJobTrigger"/>
+                <ref bean="quartzBJobTrigger"/>&ndash;&gt;
             </list>
         </property>
-    </bean>
+    </bean>-->
 </beans>
         <!-- 0 0 12 * * ? 每天12点触发
         0 15 10 ? * * 每天10点15分触发

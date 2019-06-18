@@ -10,8 +10,8 @@ import org.glassfish.jersey.jetty.JettyHttpContainerProvider;
 import org.glassfish.jersey.server.ContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.UriConnegFilter;
-import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.filter.RequestContextFilter;
 
 import java.util.List;
 

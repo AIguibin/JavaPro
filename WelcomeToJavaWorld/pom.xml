@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <!-- 项目的名称, Maven产生的文档用 -->
-    <name>aiguibin-maven</name>
+    <name>aiguibin-maven-root</name>
     <!-- 项目主页的URL, Maven产生的文档用 -->
     <url>http://maven.apache.org</url>
     <inceptionYear>2018</inceptionYear>
@@ -21,6 +21,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!--版本管理-->
+        <spring.version>5.0.7.RELEASE</spring.version>
     </properties>
     <scm>
         <url>https://github.com/xxxx</url>
@@ -32,27 +34,42 @@
     </organization>
     <!--模块名称-->
     <modules>
+        <module>aiguibin-dubbo-soa</module>
         <module>aiguibin-spring-cfg</module>
         <module>aiguibin-common-core</module>
         <module>aiguibin-activemq-jms</module>
         <module>aiguibin-frameweb-ssh</module>
         <module>aiguibin-frameweb-ssm</module>
+        <module>aiguibin-frameweb-sso</module>
+        <module>aiguibin-frameweb-jpa</module>
         <module>aiguibin-spring-jetty</module>
-        <module>aiguibin-elastic-search</module>
-        <module>aiguibin-websocket-core</module>
         <module>aiguibin-spring-server</module>
+        <module>aiguibin-customize-mvc</module>
+        <module>aiguibin-customize-rpc</module>
+        <module>aiguibin-exercise-case</module>
+        <module>aiguibin-websocket-core</module>
+        <module>aiguibin-elastic-search</module>
+        <module>aiguibin-frameweb-ioc</module>
+        <module>aiguibin-annotation-core</module>
+        <module>aiguibin-spring-tomcat</module>
     </modules>
     <!--项目依赖-->
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <artifactId>spring-test</artifactId>
+            <version>5.0.7.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
             <version>5.0.7.RELEASE</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
+            <artifactId>spring-context</artifactId>
             <version>5.0.7.RELEASE</version>
             <scope>compile</scope>
         </dependency>
@@ -76,19 +93,13 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>5.0.7.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
             <version>5.0.7.RELEASE</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
+            <artifactId>spring-aop</artifactId>
             <version>5.0.7.RELEASE</version>
             <scope>compile</scope>
         </dependency>
@@ -102,35 +113,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>5.0.7.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jms</artifactId>
-            <version>5.0.7.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-            <version>2.0.8.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-elasticsearch</artifactId>
-            <version>3.0.9.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <!--Servlet相关-->
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>8.0</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
         </dependency>
         <!--XML解析相关-->
         <dependency>
@@ -176,52 +158,6 @@
             <version>2.9.9</version>
             <scope>compile</scope>
         </dependency>
-        <!--日志相关-->
-        <!-- log4j2-begin -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.11.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.11.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-web</artifactId>
-            <version>2.11.1</version>
-        </dependency>
-        <!-- log4j2-end -->
-        <!-- log4j-start -->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.5</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.25</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- log4j-end -->
         <!--代码优化相关-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -240,6 +176,102 @@
     <!--依赖管理-->
     <dependencyManagement>
         <dependencies>
+            <!--非常用Spring相关-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-websocket</artifactId>
+                <version>5.0.7.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>5.0.7.RELEASE</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jms</artifactId>
+                <version>5.0.7.RELEASE</version>
+                <scope>compile</scope>
+            </dependency>
+            <!--XML相关-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-oxm</artifactId>
+                <version>5.0.7.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aspects</artifactId>
+                <version>5.0.7.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>5.0.7.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>2.0.8.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>2.0.8.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>2.0.8.RELEASE</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-mongodb</artifactId>
+                <version>2.0.8.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-elasticsearch</artifactId>
+                <version>3.0.9.RELEASE</version>
+                <scope>compile</scope>
+            </dependency>
+            <!--Servlet相关-->
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>8.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <!--servlet-api支持2.5,javax.servlet-api支持3.0及以上-->
+            <!--scope为provided因为部分容器中都包含Servlet-api部署的时候无需打包-->
+			<!-- servlet容器 -->
+			<dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+                <scope>provided</scope>
+            </dependency>
+			<!-- jsp容器 -->
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>2.2</version>
+                <scope>provided</scope>
+            </dependency>
+			<dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>javax.servlet.jsp-api</artifactId>
+                <version>2.3.1</version>
+                <scope>provided</scope>
+            </dependency>
             <!--ORM框架相关-->
             <!--MyBatis相关-->
             <dependency>
@@ -258,11 +290,7 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>5.3.7.Final</version>
             </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>6.0.13.Final</version>
-            </dependency>
+            <!--JPA相关-->
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
@@ -273,23 +301,49 @@
                 <artifactId>hibernate-annotations</artifactId>
                 <version>3.5.6-Final</version>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>6.0.13.Final</version>
+            </dependency>
             <!--Struts2相关-->
             <dependency>
                 <groupId>org.apache.struts</groupId>
                 <artifactId>struts2-core</artifactId>
-                <version>2.5.18</version>
+                <version>2.5.20</version>
             </dependency>
+            <!--struts2整合spring-->
             <dependency>
                 <groupId>org.apache.struts</groupId>
                 <artifactId>struts2-spring-plugin</artifactId>
-                <version>2.5.18</version>
+                <version>2.5.20</version>
+            </dependency>
+            <!--struts2注解必须-->
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts2-convention-plugin</artifactId>
+                <version>2.5.20</version>
+            </dependency>
+            <!--struts2返回JSON格式数据-->
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts2-json-plugin</artifactId>
+                <version>2.5.20</version>
             </dependency>
             <!--数据库驱动-->
+            <!--driverClass=com.mysql.jdbc.Driver-->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>6.0.6</version>
-                <scope>compile</scope>
+                <scope>provided</scope>
+            </dependency>
+            <!--driverClass=com.mysql.cj.jdbc.Driver-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.15</version>
+				<scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.oracle</groupId>
@@ -320,6 +374,7 @@
                 <version>1.1.10</version>
                 <scope>compile</scope>
             </dependency>
+            <!--JSP标签库相关-->
             <!--EL表达式相关-->
             <dependency>
                 <groupId>javax.el</groupId>
@@ -338,12 +393,77 @@
                 <artifactId>standard</artifactId>
                 <version>1.1.2</version>
             </dependency>
+            <!--内嵌式Tomcat相关-->
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>8.5.37</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-jasper</artifactId>
+                <version>8.5.37</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-el</artifactId>
+                <version>8.5.37</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-websocket</artifactId>
+                <version>8.5.37</version>
+                <scope>compile</scope>
+            </dependency>
+            <!--Dubbo相关-->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>2.7.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-serialization-fst</artifactId>
+                <version>2.7.1</version>
+            </dependency>
+            <!--zookeeper相关-->
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>3.4.6</version>
+            </dependency>
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>0.10</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.sgroschupf</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>0.1</version>
+            </dependency>
+            <!--序列化-->
+            <dependency>
+                <groupId>de.ruedigermoeller</groupId>
+                <artifactId>fst</artifactId>
+                <version>2.57</version>
+            </dependency>
+
             <!--全文检索相关-->
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>transport</artifactId>
                 <version>6.3.2</version>
                 <scope>compile</scope>
+            </dependency>
+            <!--PDF相关-->
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>2.0.12</version>
             </dependency>
             <!--网络爬虫相关-->
             <dependency>
@@ -358,6 +478,13 @@
                 <artifactId>pinyin4j</artifactId>
                 <version>2.5.1</version>
                 <scope>compile</scope>
+            </dependency>
+            <!--Google工具包-->
+            <!--Guava是一套核心和扩展库，包括实用程序类，谷歌集合，io类等等-->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>27.0.1-jre</version>
             </dependency>
             <!--网络请求相关-->
             <dependency>
@@ -386,58 +513,66 @@
                 <version>9.4.8.v20171121</version>
                 <scope>compile</scope>
             </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlet</artifactId>
+                <version>9.4.8.v20171121</version>
+                <scope>compile</scope>
+            </dependency>
             <!--Restful相关-->
+            <!--核心客户端实现 -->
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-client</artifactId>
                 <version>2.27</version>
                 <scope>compile</scope>
             </dependency>
+            <!--核心服务器实现-->
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-server</artifactId>
                 <version>2.27</version>
                 <scope>compile</scope>
             </dependency>
+            <!--核心公共包 -->
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-common</artifactId>
                 <version>2.27</version>
                 <scope>compile</scope>
             </dependency>
+            <!--jersey 容器相关选择一种就可实现Restful-->
+            <!--Jetty Http容器-->
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-jetty-http</artifactId>
                 <version>2.27</version>
                 <scope>compile</scope>
             </dependency>
+            <!--Jetty Servlet容器-->
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-jetty-servlet</artifactId>
                 <version>2.27</version>
                 <scope>compile</scope>
             </dependency>
+            <!--Netty 的Http容器-->
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-netty-http</artifactId>
+                <version>2.27</version>
+            </dependency>
+            <!--Servlet核心2.x实现 -->
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet-core</artifactId>
                 <version>2.27</version>
                 <scope>compile</scope>
             </dependency>
+            <!--Servlet核心3.x实现 -->
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet</artifactId>
-                <version>2.27</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.ext</groupId>
-                <artifactId>jersey-spring4</artifactId>
-                <version>2.27</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.ext</groupId>
-                <artifactId>jersey-entity-filtering</artifactId>
                 <version>2.27</version>
                 <scope>compile</scope>
             </dependency>
@@ -449,10 +584,72 @@
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
-                <artifactId>jersey-media-jaxb</artifactId>
+                <artifactId>jersey-media-multipart</artifactId>
                 <version>2.27</version>
                 <scope>compile</scope>
             </dependency>
+            <!--日志相关-->
+            <!--log4j2使用Log logger=LogFactory.getLog(Class<?> class)的依赖-->
+            <!--common-logging-->
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.2</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- log4j2-begin -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.11.1</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.11.1</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-web</artifactId>
+                <version>2.11.1</version>
+            </dependency>
+            <!--日志集成common-logging-->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-jcl</artifactId>
+                <version>2.11.1</version>
+            </dependency>
+            <!--log4j2异步日志依赖-->
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>3.4.2</version>
+            </dependency>
+            <!-- log4j2-end -->
+            <!-- log4j-start -->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.17</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- log4j-end -->
+            <!--slf4j-start-->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.5</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.7.25</version>
+                <scope>compile</scope>
+            </dependency>
+            <!--slf4j-ender-->
         </dependencies>
     </dependencyManagement>
     <!--++++++++++++++++++++++++++++++++++++Build Settings+++++++++++++++++++++++++++++++++++++++++-->
@@ -555,6 +752,8 @@
                         </execution>
                     </executions>
                     <configuration>
+                        <forkMode>once</forkMode>
+                        <argLine>-Dfile.encoding=UTF-8</argLine>
                         <skipTests>true</skipTests>
                     </configuration>
                 </plugin>
@@ -655,6 +854,12 @@
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>9.4.8.v20171121</version>
                 </plugin>
+                <!--集成Tomcat插件-->
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
                 <!--编译成eclipse格式-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -698,6 +903,17 @@
     <!--依赖远程仓库-->
     <repositories>
         <repository>
+            <id>AIguibin</id>
+            <name>AIguibin</name>
+            <url>http://127.0.0.1:18081/repository/aiguibin-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>JCenter</id>
             <name>JCenter</name>
             <url>https://jcenter.bintray.com/</url>
@@ -722,17 +938,6 @@
             </snapshots>
         </repository>
         <repository>
-            <id>MavenUK</id>
-            <name>MavenUK</name>
-            <url>http://uk.maven.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <id>AliyunNexus</id>
             <name>AliyunNexus</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
@@ -746,6 +951,17 @@
     </repositories>
     <!--插件远程仓库-->
     <pluginRepositories>
+        <pluginRepository>
+            <id>AIguibin</id>
+            <name>AIguibin</name>
+            <url>http://127.0.0.1:18081/repository/aiguibin-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
         <pluginRepository>
             <id>JCenter</id>
             <name>JCenter</name>
@@ -767,17 +983,6 @@
             </releases>
             <snapshots>
                 <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>MavenUK</id>
-            <name>MavenUK</name>
-            <url>http://uk.maven.org/maven2/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
         <pluginRepository>

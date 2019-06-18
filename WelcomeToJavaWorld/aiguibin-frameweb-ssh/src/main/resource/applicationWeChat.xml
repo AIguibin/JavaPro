@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"> 
-<beans default-autowire="byName" >
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
 <!-- 微信解密常用 -->
-	<!--<bean id="weChatCode" class="aiguibin.WeChat.User.WeChatCode" ></bean>
-	<bean id="decryptHttp" class="aiguibin.WeChat.User.DecryptHttp" ></bean>
-	<bean id="weChatDecrypt" class="aiguibin.WeChat.User.WeChatDecrypt" ></bean>
+	<!--<bean id="weChatCode" class="aiguibin.WeChat.UserEntity.WeChatCode" ></bean>
+	<bean id="decryptHttp" class="aiguibin.WeChat.UserEntity.DecryptHttp" ></bean>
+	<bean id="weChatDecrypt" class="aiguibin.WeChat.UserEntity.WeChatDecrypt" ></bean>
 	
-	<bean id="decryptCode" class="aiguibin.WeChat.User.DecryptCode" >
+	<bean id="decryptCode" class="aiguibin.WeChat.UserEntity.DecryptCode" >
 		<property name="weChatCode" ref="weChatCode"></property>
 		<property name="decryptHttp" ref="decryptHttp"></property>
 		<property name="weChatDecrypt" ref="weChatDecrypt"></property>

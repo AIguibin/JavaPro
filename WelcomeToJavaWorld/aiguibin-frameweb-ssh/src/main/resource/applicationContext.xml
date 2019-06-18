@@ -2,19 +2,27 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <!--开启注解扫描-->
+    <context:annotation-config/>
+    <!--扫描包的范围-->
+    <context:component-scan base-package="com.aiguibin.service"/>
+    <context:component-scan base-package="com.aiguibin.action"/>
+    <!--导入资源文件-->
+    <context:property-placeholder location="classpath:database.properties"/>
+    <!--配置数据源-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/wechatvoice?useUnicode=true&amp;characterEncoding=utf-8&amp;useOldAliasMetadataBehavior=true&amp;zeroDateTimeBehavior=convertToNull" />
-        <property name="username" value="root" />
-        <property name="password" value="123456"/>
+        <property name="url" value="${jdbc.jdbcUrl}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
 
         <!-- 初始化连接池中的连接数 ,default : 3 -->
         <!-- 连接池中保留的最小连接数 ,default : 3 -->
@@ -26,21 +34,26 @@
         <!-- idleConnectionTestPeriod闲置的连接测试周期[秒] -->
     </bean>
     <!-- 配置 SessionFactory -->
-    <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
+        <!--扫描注解方式-->
+        <property name="packagesToScan" value="com.aiguibin.entities"/>
+        <!--加载hibernate主配置文件-->
         <property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+        <!--映射实体.hbm.xml方式,非注解方式-->
         <!--<property name="mappingLocations" value="classpath:aiguibin/Envelope/Entitys/*.hbm.xml"></property>-->
     </bean>
-    <!-- 配置MySuperDao -->
-    <!--<bean id="mySuperDao" class="aiguibin.Envelope.MyDao.MySuperDao">-->
-        <!--<property name="sessionFactory" ref="sessionFactory"></property>-->
-    <!--</bean>-->
+    <!--配置GeneralAccessor -->
+    <bean id="generalAccessor" class="com.aiguibin.access.GeneralAccessorImpl">
 
-
-
-
-
-    <context:component-scan base-package="com"/>
-    <mvc:annotation-driven />
+    </bean>
+    <!--基于注解配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!--开启事务注解-->
+    <tx:annotation-driven/>
+    <!--导入其他配置文件-->
+    <!--<import resource="classpath:applicationQuartz.xml"/>-->
+    <!--<import resource="classpath:applicationWeChat.xml"/>-->
 </beans>
