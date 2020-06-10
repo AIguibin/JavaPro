@@ -1,5 +1,7 @@
 <html>
+<script type="text/javascript">
+    window.location = "studentsManager/login.html";
+</script>
 <body>
-<h2>Hello World!</h2>
 </body>
 </html>

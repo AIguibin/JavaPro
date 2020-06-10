@@ -47,6 +47,7 @@ public class LoginServlet extends HttpServlet {
 			array.add(json02);
 			array.add(json03);
 			array.add(json04);
+			response.addHeader("Access-Control-Allow-Origin","*");
 			response.setCharacterEncoding("utf-8");
 			response.getWriter().write(array.toString());
 		} catch (IOException e) {

@@ -1,0 +1,5 @@
+@import url("./../libs/elementUI/themes/element-2.13.2.css");
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+  }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理登陆</title>
+    <link rel="stylesheet" href="./themes/main.css">
+    <script src="./libs/vue/vue-2.5.13.js"></script>
+    <script src="./libs/elementUI/libs/element-2.13.2.js"></script>
+</head>
+
+<body>
+    <div id="login" style="text-align: center;">
+        <div style="width:300px;height: 300px;position: absolute;top: 32%;left: 37%;">
+            <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+                <el-form-item label="用户姓名" prop="name">
+                    <el-input v-model="form.name" placeholder="请输入用户名"></el-input>
+                </el-form-item>
+                <el-form-item label="用户密码" prop="pass">
+                    <el-input v-model="form.pass" placeholder="请输入密码"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="onSubmit">登 陆</el-button>
+                    <el-button type="primary" @click="resetFn">重 置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+
+    </div>
+    <script>
+        var login = new Vue({
+            el: '#login',
+            data: {
+                form: {
+                    name: '',
+                    pass: ''
+                },
+                rules: {
+                    name: [{
+                            required: true,
+                            message: '请输入姓名',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 3,
+                            max: 9,
+                            message: '长度在 3 到 9 个字符',
+                            trigger: 'blur'
+                        }
+                    ],
+                    pass: [{
+                            required: true,
+                            message: '请输入密码',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 3,
+                            max: 9,
+                            message: '长度在 3 到 9 个字符',
+                            trigger: 'blur'
+                        }
+                    ]
+                }
+            },
+            methods: {
+                onSubmit() {
+                    var validFlag = true;
+                    this.$refs.form.validate((valid) => {
+                        validFlag = valid
+                    });
+                    if (!validFlag) {
+                        return;
+                    }
+                    if (this.form.name != 'admin' && this.form.name != 'student') {
+                        this.$confirm('没有该用户，请选择角色注册', '提示', {
+                            confirmButtonText: '教师',
+                            cancelButtonText: '学生',
+                            type: 'success'
+                        }).then(() => {
+                            window.location.href = "./pages/regist/regist.html?role=admin";
+                        }).catch(() => {
+                            window.location.href = "./pages/regist/regist.html?role=student";
+                        });
+                    } else {
+                        window.location.href = "./pages/main/main.html?name=" + this.form.name;
+                    }
+                },
+                resetFn() {
+                    this.form = {}
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
