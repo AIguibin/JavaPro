@@ -5,7 +5,7 @@ var app = new Vue({
         activeNameString:'',
         collapseTitle: '',
         tableData: [],
-        formData: {},
+        formData: { },
         userName: ''
     },
     mounted: function () {
@@ -87,7 +87,7 @@ var app = new Vue({
             return tableArray;
         },
         getFormDataFn: function (name) {
-            var tableArray = []
+            var tableArray = {}
             return tableArray;
         },
         saveFn: function () {

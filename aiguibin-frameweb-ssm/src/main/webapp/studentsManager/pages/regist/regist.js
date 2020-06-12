@@ -28,7 +28,7 @@ var app = new Vue({
         submitFn: function () {
             console.log('data')
             $.ajax({
-                url: "http://127.0.0.1:5500/loginServlet",
+                url: "http://127.0.0.1:8080/loginServlet",
                 contentType:"application/json",
                 type: "post",
                 data: {

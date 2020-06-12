@@ -10,181 +10,212 @@
 </head>
 
 <body>
-    <div id="app">
-        <el-row>
-            <el-col :span="24">
-                <div style="background-image:url('http://127.0.0.1:8080/studentsManager/themes/image/banner.jpg');">
-                    <span style="font-size: 46px;font-weight: bold;color: rgba(255, 187, 0, 0.363);">考生信息查询系统</span>
-                </div>
-            </el-col>
-        </el-row>
+<div id="app">
+    <el-row>
+        <el-col :span="24">
+            <div style="background-image:url('http://127.0.0.1:8080/studentsManager/themes/image/banner.jpg');">
+                <span style="font-size: 46px;font-weight: bold;color: rgba(255, 187, 0, 0.363);">考生信息查询系统</span>
+            </div>
+        </el-col>
+    </el-row>
 
 
-        <el-row>
-            <el-col :span="4" v-if="userName=='admin'">
-                <el-menu ref="refMenu" default-active="1" class="el-menu-vertical-demo" @open="handleOpen"
-                    @close="handleClose">
-                    <el-menu-item index="1" @click="selectFn">
-                        <i class="el-icon-location"></i>
-                        <span slot="title">个人主页</span>
-                    </el-menu-item>
-                    <el-menu-item index="2" @click="selectFn">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">学生信息</span>
-                    </el-menu-item>
-                    <el-menu-item index="3" @click="selectFn">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">退出系统</span>
-                    </el-menu-item>
-                </el-menu>
-            </el-col>
-            <el-col :span="4" v-if="userName=='student'">
-                <el-menu ref="refMenu" default-active="1" class="el-menu-vertical-demo" @open="handleOpen"
-                    @close="handleClose">
-                    <el-menu-item index="4" @click="selectFn">
-                        <i class="el-icon-location"></i>
-                        <span slot="title">个人主页</span>
-                    </el-menu-item>
-                    <el-menu-item index="5" @click="selectFn">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">成绩信息</span>
-                    </el-menu-item>
-                    <el-menu-item index="6" @click="selectFn">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">退出系统</span>
-                    </el-menu-item>
-                </el-menu>
-            </el-col>
-            <el-col :span="20">
-                <el-collapse v-model="activeNameArray" accordion >
-                    <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='adminInfo'">
-                        <el-form ref="form" v-model="formData" label-width="80px" :inline="true">
-                            <el-form-item label="教师姓名">
-                                <el-input v-model="formData.name"></el-input>
-                            </el-form-item>
-                            <el-form-item label="教师姓名">
-                                <el-input v-model="formData.name"></el-input>
-                            </el-form-item>
-                            <el-form-item label="教师姓名">
-                                <el-input v-model="formData.name"></el-input>
-                            </el-form-item>
-                            <el-form-item label="注册时间">
-                                <el-date-picker type="date" placeholder="选择日期" v-model="formData.date"
-                                    style="width: 100%;"></el-date-picker>
-                            </el-form-item>
-                        </el-form>
-                        <el-col :span="8" :offset="10">
-                            <div>
-                                <el-button type="primary" @click="saveFn">保存</el-button>
-                                <el-button type="primary">取消</el-button>
-                            </div>
-                        </el-col>
-                    </el-collapse-item>
-                    <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='adminCenter'">
-                        <template>
-                            <el-table :data="tableData" style="width: 100%">
-                                <el-table-column label="日期" width="180">
-                                    <template slot-scope="scope">
-                                        <i class="el-icon-time"></i>
-                                        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="姓名" width="180">
-                                    <template slot-scope="scope">
-                                        <el-popover trigger="hover" placement="top">
-                                            <p>姓名: {{ scope.row.name }}</p>
-                                            <p>住址: {{ scope.row.address }}</p>
-                                            <div slot="reference" class="name-wrapper">
-                                                <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                                            </div>
-                                        </el-popover>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="操作">
-                                    <template slot-scope="scope">
-                                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑
-                                        </el-button>
-                                        <el-button size="mini" type="danger"
-                                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </template>
-                    </el-collapse-item>
-                    <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='studentInfo'">
-                        <el-form ref="form" :model="formData" label-width="80px" :inline="true">
-                            <el-form-item label="教师姓名">
-                                <el-input v-model="formData.name"></el-input>
-                            </el-form-item>
-                            <el-form-item label="教师姓名">
-                                <el-input v-model="formData.name"></el-input>
-                            </el-form-item>
-                            <el-form-item label="教师姓名">
-                                <el-input v-model="formData.name"></el-input>
-                            </el-form-item>
-                            <el-form-item label="注册时间">
-                                <el-date-picker type="date" placeholder="选择日期" v-model="formData.date"
-                                    style="width: 100%;"></el-date-picker>
-                            </el-form-item>
-                        </el-form>
-                        <el-col :span="8" :offset="10">
-                            <div>
-                                <el-button type="primary" @click="saveFn">保存</el-button>
-                                <el-button type="primary">取消</el-button>
-                            </div>
-                        </el-col>
-                    </el-collapse-item>
-                    <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='studentCenter'">
-                        <template>
-                            <el-table :data="tableData" style="width: 100%">
-                                <el-table-column label="日期" width="180">
-                                    <template slot-scope="scope">
-                                        <i class="el-icon-time"></i>
-                                        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="姓名" width="180">
-                                    <template slot-scope="scope">
-                                        <el-popover trigger="hover" placement="top">
-                                            <p>姓名: {{ scope.row.name }}</p>
-                                            <p>住址: {{ scope.row.address }}</p>
-                                            <div slot="reference" class="name-wrapper">
-                                                <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                                            </div>
-                                        </el-popover>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="操作">
-                                    <template slot-scope="scope">
-                                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑
-                                        </el-button>
-                                        <el-button size="mini" type="danger"
-                                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </template>
-                    </el-collapse-item>
-                </el-collapse>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="8">
-                <div style=" border-radius: 4px;min-height: 36px;"></div>
-            </el-col>
-            <el-col :span="8">
-                <div style=" border-radius: 4px;min-height: 36px;font-size: small;">
-                    &copy;2020豫字&nbsp;&nbsp;|&nbsp;&nbsp;学校地址：郑州巩义紫金路136号 &nbsp;&nbsp;|&nbsp;&nbsp;@author:20190321304
-                </div>
-            </el-col>
-            <el-col :span="8">
-                <div style=" border-radius: 4px;min-height: 36px;"></div>
-            </el-col>
-        </el-row>
+    <el-row>
+        <el-col :span="4" v-if="userName=='admin'">
+            <el-menu ref="refMenu" default-active="1" class="el-menu-vertical-demo" @open="handleOpen"
+                     @close="handleClose">
+                <el-menu-item index="1" @click="selectFn">
+                    <i class="el-icon-location"></i>
+                    <span slot="title">个人主页</span>
+                </el-menu-item>
+                <el-menu-item index="2" @click="selectFn">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">学生信息</span>
+                </el-menu-item>
+                <el-menu-item index="3" @click="selectFn">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title">退出系统</span>
+                </el-menu-item>
+            </el-menu>
+        </el-col>
+        <el-col :span="4" v-if="userName=='student'">
+            <el-menu ref="refMenu" default-active="1" class="el-menu-vertical-demo" @open="handleOpen"
+                     @close="handleClose">
+                <el-menu-item index="4" @click="selectFn">
+                    <i class="el-icon-location"></i>
+                    <span slot="title">个人主页</span>
+                </el-menu-item>
+                <el-menu-item index="5" @click="selectFn">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">成绩信息</span>
+                </el-menu-item>
+                <el-menu-item index="6" @click="selectFn">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title">退出系统</span>
+                </el-menu-item>
+            </el-menu>
+        </el-col>
+        <el-col :span="20">
+            <el-collapse v-model="activeNameArray" accordion>
+                <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='adminInfo'">
+                    <el-form ref="form" :model="formData" label-width="120px" size="medium" class="formStyle">
+                        <el-form-item label="姓名">
+                            <el-input prop="name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码">
+                            <el-input prop="password"></el-input>
+                        </el-form-item>
+                        <el-form-item label="联系方式">
+                            <el-input prop="phone"></el-input>
+                        </el-form-item>
+                        <el-form-item label="联系地址">
+                            <el-input prop="address"></el-input>
+                        </el-form-item>
+                        <el-form-item label="注册日期">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="formData.date1"
+                                            style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-form>
+                    <el-col :span="8" :offset="10">
+                        <div>
+                            <el-button type="primary" @click="saveFn">保存</el-button>
+                            <el-button type="primary">取消</el-button>
+                        </div>
+                    </el-col>
+                </el-collapse-item>
+                <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='adminCenter'">
+                    <template>
+                        <el-table :data="tableData" style="width: 100%">
+                            <el-table-column label="日期" width="180">
+                                <template slot-scope="scope">
+                                    <i class="el-icon-time"></i>
+                                    <span style="margin-left: 10px">{{ scope.row.date }}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="姓名" width="180">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>姓名: {{ scope.row.name }}</p>
+                                        <p>住址: {{ scope.row.address }}</p>
+                                        <div slot="reference" class="name-wrapper">
+                                            <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                                        </div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑
+                                    </el-button>
+                                    <el-button size="mini" type="danger"
+                                               @click="handleDelete(scope.$index, scope.row)">删除
+                                    </el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </el-collapse-item>
+                <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='studentInfo'">
+                    <el-form ref="form" :model="formData" label-width="120px" size="medium" class="formStyle">
+                        <el-form-item label="姓名">
+                            <el-input prop="name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码">
+                            <el-input prop="password"></el-input>
+                        </el-form-item>
+                        <el-form-item label="性别">
+                            <el-input prop="sex"></el-input>
+                        </el-form-item>
+                        <el-form-item label="年龄">
+                            <el-input prop="age"></el-input>
+                        </el-form-item>
+                        <el-form-item label="民族">
+                            <el-input prop="nation"></el-input>
+                        </el-form-item>
+                        <el-form-item label="邮箱">
+                            <el-input prop="email"></el-input>
+                        </el-form-item>
+                        <el-form-item label="手机号码">
+                            <el-input prop="phone"></el-input>
+                        </el-form-item>
+                        <el-form-item label="常住地址">
+                            <el-input prop="address"></el-input>
+                        </el-form-item>
+                        <el-form-item label="注册时间">
+                            <el-date-picker type="date" placeholder="选择日期" prop="register"
+                                            style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-form>
+                    <el-col :span="8" :offset="10">
+                        <div>
+                            <el-button type="primary" @click="saveFn">保存</el-button>
+                            <el-button type="primary">取消</el-button>
+                        </div>
+                    </el-col>
+                </el-collapse-item>
+                <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='studentCenter'">
+                    <template>
+                        <el-table :data="tableData" style="width: 100%">
+                            <el-table-column label="日期" width="180">
+                                <template slot-scope="scope">
+                                    <i class="el-icon-time"></i>
+                                    <span style="margin-left: 10px">{{ scope.row.date }}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="姓名" width="180">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>姓名: {{ scope.row.name }}</p>
+                                        <p>住址: {{ scope.row.address }}</p>
+                                        <div slot="reference" class="name-wrapper">
+                                            <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                                        </div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑
+                                    </el-button>
+                                    <el-button size="mini" type="danger"
+                                               @click="handleDelete(scope.$index, scope.row)">删除
+                                    </el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                </el-collapse-item>
+            </el-collapse>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-col :span="8">
+            <div style=" border-radius: 4px;min-height: 36px;"></div>
+        </el-col>
+        <el-col :span="8">
+            <div style=" border-radius: 4px;min-height: 36px;font-size: small;">
+                &copy;2020豫字&nbsp;&nbsp;|&nbsp;&nbsp;学校地址：郑州巩义紫金路136号 &nbsp;&nbsp;|&nbsp;&nbsp;@author:20190321304
+            </div>
+        </el-col>
+        <el-col :span="8">
+            <div style=" border-radius: 4px;min-height: 36px;"></div>
+        </el-col>
+    </el-row>
 
-    </div>
+</div>
 
-    <script src="./main.js"></script>
+<script src="./main.js"></script>
+<style>
+    .formStyle {
+        width: 500px;
+
+    }
+
+    .collapse-item .el-collapse-item__header {
+        font-size: 18px;
+        color: #36c3ff;
+    }
+</style>
 </body>
 
 </html>
