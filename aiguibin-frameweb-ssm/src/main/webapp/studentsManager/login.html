@@ -7,90 +7,134 @@
     <link rel="stylesheet" href="./themes/main.css">
     <script src="./libs/vue/vue-2.5.13.js"></script>
     <script src="./libs/elementUI/libs/element-2.13.2.js"></script>
+    <script src="./libs/jquery/jquery.js"></script>
 </head>
 
 <body>
-    <div id="login" style="text-align: center;">
-        <div style="width:300px;height: 300px;position: absolute;top: 32%;left: 37%;">
-            <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-                <el-form-item label="用户姓名" prop="name">
-                    <el-input v-model="form.name" placeholder="请输入用户名"></el-input>
-                </el-form-item>
-                <el-form-item label="用户密码" prop="pass">
-                    <el-input v-model="form.pass" placeholder="请输入密码"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="onSubmit">登 陆</el-button>
-                    <el-button type="primary" @click="resetFn">重 置</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
-
+<div id="login" style="text-align: center;">
+    <div>
+        <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" center>
+            <span>请选择你的角色</span>
+            <span slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="roleClickFn('admin')">管理员</el-button>
+                    <el-button type="primary" @click="roleClickFn('student')">考生</el-button>
+                </span>
+        </el-dialog>
     </div>
-    <script>
-        var login = new Vue({
-            el: '#login',
-            data: {
-                form: {
-                    name: '',
-                    pass: ''
-                },
-                rules: {
-                    name: [{
-                            required: true,
-                            message: '请输入姓名',
-                            trigger: 'blur'
-                        },
-                        {
-                            min: 3,
-                            max: 9,
-                            message: '长度在 3 到 9 个字符',
-                            trigger: 'blur'
-                        }
-                    ],
-                    pass: [{
-                            required: true,
-                            message: '请输入密码',
-                            trigger: 'blur'
-                        },
-                        {
-                            min: 3,
-                            max: 9,
-                            message: '长度在 3 到 9 个字符',
-                            trigger: 'blur'
-                        }
-                    ]
-                }
+    <div style="width:400px;height: 300px;position: absolute;top: 32%;left: 37%;" v-if="formHidden">
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+            <el-form-item label="用户账号" prop="name">
+                <el-input v-model="form.name" placeholder="请输入用户名"></el-input>
+            </el-form-item>
+            <el-form-item label="用户密码" prop="pass">
+                <el-input v-model="form.pass" placeholder="请输入密码"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit">登 陆</el-button>
+                <el-button type="primary" @click="resetFn">重 置</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+    <div style="width:400px;height: 300px;position: absolute;top: 32%;left: 37%;" v-if="!formHidden">
+        <el-button type="primary" @click="turnrole">请选择您的角色</el-button>
+    </div>
+</div>
+<script>
+    var login = new Vue({
+        el: '#login',
+        data: {
+            form: {
+                name: '',
+                pass: ''
             },
-            methods: {
-                onSubmit() {
-                    var validFlag = true;
-                    this.$refs.form.validate((valid) => {
-                        validFlag = valid
-                    });
-                    if (!validFlag) {
-                        return;
+            userType: '',
+            formHidden: false,
+            dialogVisible: false,
+            rules: {
+                name: [{
+                    required: true,
+                    message: '请输入姓名',
+                    trigger: 'blur'
+                },
+                    {
+                        min: 3,
+                        max: 9,
+                        message: '长度在 3 到 9 个字符',
+                        trigger: 'blur'
                     }
-                    if (this.form.name != 'admin' && this.form.name != 'student') {
-                        this.$confirm('没有该用户，请选择角色注册', '提示', {
-                            confirmButtonText: '教师',
-                            cancelButtonText: '学生',
-                            type: 'success'
-                        }).then(() => {
-                            window.location.href = "./pages/regist/regist.html?role=admin";
-                        }).catch(() => {
-                            window.location.href = "./pages/regist/regist.html?role=student";
+                ],
+                pass: [{
+                    required: true,
+                    message: '请输入密码',
+                    trigger: 'blur'
+                },
+                    {
+                        min: 3,
+                        max: 9,
+                        message: '长度在 3 到 9 个字符',
+                        trigger: 'blur'
+                    }
+                ]
+            }
+        },
+        mounted: function () {
+
+        },
+        methods: {
+            roleClickFn(val) {
+                this.userType = val
+                this.dialogVisible = false
+                this.formHidden = true
+
+            },
+            turnrole() {
+                this.dialogVisible = true
+            },
+            onSubmit() {
+                var _this = this;
+                var validFlag = true;
+                _this.$refs.form.validate(function (valid) {
+                    validFlag = valid
+                });
+                if (!validFlag) {
+                    return;
+                }
+                if (_this.userType) {
+                    if (_this.userType == 'admin') {
+                        $.ajax({
+                            url: '/user/getAdminInfo?adminNum=' + _this.form.name,
+                            type: "GET",
+                            success: function (result) {
+                                if (result) {
+                                    window.location.href = "./pages/main/main.html?userType=" + _this.userType + "&adminNum=" + _this.form.name;
+                                } else {
+                                    window.location.href = "./pages/regist/regist.html?role=" + _this.userType;
+                                }
+                            }
                         });
                     } else {
-                        window.location.href = "./pages/main/main.html?name=" + this.form.name;
+                        $.ajax({
+                            url: '/student/getStudentInfo?studentNum=' + _this.form.name,
+                            type: "GET",
+                            success: function (result) {
+                                if (result) {
+                                    window.location.href = "./pages/main/main.html?userType=" + _this.userType+ "&studentNum=" + _this.form.name;
+                                } else {
+                                    window.location.href = "./pages/regist/regist.html?role=" + _this.userType;
+                                }
+                            }
+                        });
                     }
-                },
-                resetFn() {
-                    this.form = {}
+                } else {
+                    this.dialogVisible = true
                 }
+            },
+            resetFn() {
+                this.form = {}
             }
-        })
-    </script>
+        }
+    })
+</script>
 </body>
 
 </html>

@@ -22,21 +22,24 @@ var app = new Vue({
             }
             return urlObj;
         }
+
         this.collapseFlag = this.activeNameArray = getUrlParams('role')
     },
     methods: {
-        submitFn: function () {
-            console.log('data')
+        submitFn: function (val) {
+            var requestUrl=""
+            if (val == 1) {
+                requestUrl="/user/insertAdminInfo"
+            }else{
+                requestUrl="/student/insertStudent"
+            }
             $.ajax({
-                url: "http://127.0.0.1:8080/loginServlet",
-                contentType:"application/json",
-                type: "post",
-                data: {
-                    name: 'Jone',
-                    age: 18
-                },
+                url: requestUrl,
+                contentType: "application/json;charset=UTF-8",
+                type: "POST",
+                data: JSON.stringify(this.form),
                 success: function (result) {
-                    console.log(result)
+                    window.location = "studentsManager/login.html";
                 }
             });
         }

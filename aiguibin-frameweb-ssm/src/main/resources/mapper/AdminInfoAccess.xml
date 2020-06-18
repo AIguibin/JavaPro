@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aiguibin.access.AdminInfoAccess">
+    <insert id="insertAdminInfo" useGeneratedKeys="true"
+            keyProperty="id" parameterType="com.aiguibin.entities.AdminInfoEntity">
+	    insert into admin_info(admin_num,admin_name,admin_pass,admin_age,admin_tel,admin_add,admin_sex,admin_date)
+	    values (#{adminNum},#{adminName}, #{adminPass},#{adminAge},#{adminTel},#{adminAdd},#{adminSex},#{adminDate})
+    </insert>
+    <select id="getAdminEntityByNum" resultType="com.aiguibin.entities.AdminInfoEntity">
+        select  * from  admin_info where admin_num=#{adminNum};
+    </select>
+
+    <update id="updateAdminInfo" parameterType="com.aiguibin.entities.AdminInfoEntity">
+        update  admin_info set admin_pass = #{adminPass)  where id=#{adminNum};
+    </update>
+</mapper>

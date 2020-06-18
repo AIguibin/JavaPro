@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./../../themes/main.css">
     <script src="./../../libs/vue/vue-2.5.13.js"></script>
     <script src="./../../libs/elementUI/libs/element-2.13.2.js"></script>
+    <script src="./../../libs/jquery/jquery.js"></script>
 </head>
 
 <body>
@@ -18,10 +19,8 @@
             </div>
         </el-col>
     </el-row>
-
-
     <el-row>
-        <el-col :span="4" v-if="userName=='admin'">
+        <el-col :span="4" v-if="userType=='admin'">
             <el-menu ref="refMenu" default-active="1" class="el-menu-vertical-demo" @open="handleOpen"
                      @close="handleClose">
                 <el-menu-item index="1" @click="selectFn">
@@ -30,26 +29,30 @@
                 </el-menu-item>
                 <el-menu-item index="2" @click="selectFn">
                     <i class="el-icon-menu"></i>
-                    <span slot="title">学生信息</span>
+                    <span slot="title">考生信息</span>
                 </el-menu-item>
                 <el-menu-item index="3" @click="selectFn">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">修改密码</span>
+                </el-menu-item>
+                <el-menu-item index="4" @click="selectFn">
                     <i class="el-icon-setting"></i>
                     <span slot="title">退出系统</span>
                 </el-menu-item>
             </el-menu>
         </el-col>
-        <el-col :span="4" v-if="userName=='student'">
+        <el-col :span="4" v-if="userType=='student'">
             <el-menu ref="refMenu" default-active="1" class="el-menu-vertical-demo" @open="handleOpen"
                      @close="handleClose">
-                <el-menu-item index="4" @click="selectFn">
+                <el-menu-item index="5" @click="selectFn">
                     <i class="el-icon-location"></i>
                     <span slot="title">个人主页</span>
                 </el-menu-item>
-                <el-menu-item index="5" @click="selectFn">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">成绩信息</span>
-                </el-menu-item>
                 <el-menu-item index="6" @click="selectFn">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">修改密码</span>
+                </el-menu-item>
+                <el-menu-item index="7" @click="selectFn">
                     <i class="el-icon-setting"></i>
                     <span slot="title">退出系统</span>
                 </el-menu-item>
@@ -58,22 +61,89 @@
         <el-col :span="20">
             <el-collapse v-model="activeNameArray" accordion>
                 <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='adminInfo'">
-                    <el-form ref="form" :model="formData" label-width="120px" size="medium" class="formStyle">
-                        <el-form-item label="姓名">
-                            <el-input prop="name"></el-input>
+                    <el-form ref="form" :model="formData" label-width="120px" size="medium" class="formStyle" disabled>
+                        <el-form-item label="账号">
+                            <el-input v-model="formData.adminNum"></el-input>
                         </el-form-item>
-                        <el-form-item label="密码">
-                            <el-input prop="password"></el-input>
+                        <el-form-item label="姓名">
+                            <el-input v-model="formData.adminName"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="年龄">
+                            <el-input v-model="formData.adminAge"></el-input>
+                        </el-form-item>
+                        <el-form-item label="性别">
+                            <el-input v-model="formData.adminSex"></el-input>
                         </el-form-item>
                         <el-form-item label="联系方式">
-                            <el-input prop="phone"></el-input>
+                            <el-input v-model="formData.adminTel"></el-input>
                         </el-form-item>
                         <el-form-item label="联系地址">
-                            <el-input prop="address"></el-input>
+                            <el-input v-model="formData.adminAdd"></el-input>
                         </el-form-item>
                         <el-form-item label="注册日期">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="formData.date1"
+                            <el-date-picker type="date" placeholder="选择日期" v-model="formData.adminDate"
                                             style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-form>
+                </el-collapse-item>
+                <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='adminCenter'">
+                    <template>
+                        <el-button-group>
+                            <el-button type="primary" icon="el-icon-edit" @click="adminEdit">编辑</el-button>
+                            <el-button type="primary" icon="el-icon-delete" @click="adminDelete">删除</el-button>
+                        </el-button-group>
+                        <el-table :data="tableData" style="width: 100%" stripe>
+                            <el-table-column label="选择" width="65">
+                                <template scope="scope">
+                                    <el-radio :label="scope.$index" v-model="radio"
+                                              @change.native="getCurrentRow(scope.row)"></el-radio>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="studentNum" label="账号" width="180"></el-table-column>
+                            <el-table-column label="姓名" width="180">
+                                <template slot-scope="scope">
+                                    <el-popover trigger="hover" placement="top">
+                                        <p>姓名: {{ scope.row.studentName }}</p>
+                                        <p>住址: {{ scope.row.studentAdd }}</p>
+                                        <div slot="reference" class="name-wrapper">
+                                            <el-tag size="medium">{{ scope.row.studentName }}</el-tag>
+                                        </div>
+                                    </el-popover>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="studentAge" label="年龄" width="180"></el-table-column>
+                            <el-table-column prop="studentSex" label="性别" width="180"></el-table-column>
+                            <el-table-column prop="studentNation" label="民族" width="180"></el-table-column>
+                            <el-table-column prop="studentEmail" label="邮箱" width="180"></el-table-column>
+                            <el-table-column prop="studentTel" label="电话" width="180"></el-table-column>
+                            <el-table-column prop="studentAdd" label="地址" width="180"></el-table-column>
+                            <el-table-column label="日期" width="180">
+                                <template slot-scope="scope">
+                                    <el-date-picker v-model="scope.row.studentDate" type="date"
+                                                    format="yyyy 年 MM 月 dd 日" value-format="timestamp"
+                                                    readonly></el-date-picker>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <div class="block">
+                            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                           :current-page="1" :page-sizes="[10, 20, 30, 50]" :page-size="10"
+                                           layout="total, sizes, prev, pager, next, jumper" :total="400">
+                            </el-pagination>
+                        </div>
+                    </template>
+                </el-collapse-item>
+                <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='password'">
+                    <el-form ref="form" :model="formData" label-width="120px" size="medium" class="formStyle">
+                        <el-form-item label="原密码">
+                            <el-input v-model="name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="新密码">
+                            <el-input v-model="password"></el-input>
+                        </el-form-item>
+                        <el-form-item label="请确认">
+                            <el-input v-model="phone"></el-input>
                         </el-form-item>
                     </el-form>
                     <el-col :span="8" :offset="10">
@@ -83,66 +153,34 @@
                         </div>
                     </el-col>
                 </el-collapse-item>
-                <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='adminCenter'">
-                    <template>
-                        <el-table :data="tableData" style="width: 100%">
-                            <el-table-column label="日期" width="180">
-                                <template slot-scope="scope">
-                                    <i class="el-icon-time"></i>
-                                    <span style="margin-left: 10px">{{ scope.row.date }}</span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="姓名" width="180">
-                                <template slot-scope="scope">
-                                    <el-popover trigger="hover" placement="top">
-                                        <p>姓名: {{ scope.row.name }}</p>
-                                        <p>住址: {{ scope.row.address }}</p>
-                                        <div slot="reference" class="name-wrapper">
-                                            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                                        </div>
-                                    </el-popover>
-                                </template>
-                            </el-table-column>
-                            <el-table-column label="操作">
-                                <template slot-scope="scope">
-                                    <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑
-                                    </el-button>
-                                    <el-button size="mini" type="danger"
-                                               @click="handleDelete(scope.$index, scope.row)">删除
-                                    </el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </template>
-                </el-collapse-item>
                 <el-collapse-item :title="collapseTitle" name="activeName" v-if="activeNameString=='studentInfo'">
                     <el-form ref="form" :model="formData" label-width="120px" size="medium" class="formStyle">
                         <el-form-item label="姓名">
-                            <el-input prop="name"></el-input>
+                            <el-input v-model="name"></el-input>
                         </el-form-item>
                         <el-form-item label="密码">
-                            <el-input prop="password"></el-input>
+                            <el-input v-model="password"></el-input>
                         </el-form-item>
                         <el-form-item label="性别">
-                            <el-input prop="sex"></el-input>
+                            <el-input v-model="sex"></el-input>
                         </el-form-item>
                         <el-form-item label="年龄">
-                            <el-input prop="age"></el-input>
+                            <el-input v-model="age"></el-input>
                         </el-form-item>
                         <el-form-item label="民族">
-                            <el-input prop="nation"></el-input>
+                            <el-input v-model="nation"></el-input>
                         </el-form-item>
                         <el-form-item label="邮箱">
-                            <el-input prop="email"></el-input>
+                            <el-input v-model="email"></el-input>
                         </el-form-item>
                         <el-form-item label="手机号码">
-                            <el-input prop="phone"></el-input>
+                            <el-input v-model="phone"></el-input>
                         </el-form-item>
                         <el-form-item label="常住地址">
-                            <el-input prop="address"></el-input>
+                            <el-input v-model="address"></el-input>
                         </el-form-item>
                         <el-form-item label="注册时间">
-                            <el-date-picker type="date" placeholder="选择日期" prop="register"
+                            <el-date-picker type="date" placeholder="选择日期" v-model="register"
                                             style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-form>
@@ -188,6 +226,36 @@
             </el-collapse>
         </el-col>
     </el-row>
+    <!--管理员编辑学生弹窗-->
+    <el-dialog title="学生信息" :visible.sync="dialogFormVisible" width="500px">
+        <el-form :model="formStudentInfo" label-width="60px">
+            <el-form-item label="账号">
+                <el-input v-model="formStudentInfo.studentNum"></el-input>
+            </el-form-item>
+            <el-form-item label="账号">
+                <el-input v-model="formStudentInfo.studentNum"></el-input>
+            </el-form-item>
+            <el-form-item label="账号">
+                <el-input v-model="formStudentInfo.studentNum"></el-input>
+            </el-form-item>
+            <el-form-item label="账号">
+                <el-input v-model="formStudentInfo.studentNum"></el-input>
+            </el-form-item>
+            <el-form-item label="账号">
+                <el-input v-model="formStudentInfo.studentNum"></el-input>
+            </el-form-item>
+            <el-form-item label="账号">
+                <el-input v-model="formStudentInfo.studentNum"></el-input>
+            </el-form-item>
+            <el-form-item label="账号">
+                <el-input v-model="formStudentInfo.studentNum"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogFormVisible = false">保 存</el-button>
+        </div>
+    </el-dialog>
     <el-row>
         <el-col :span="8">
             <div style=" border-radius: 4px;min-height: 36px;"></div>
@@ -208,7 +276,7 @@
 <style>
     .formStyle {
         width: 500px;
-
+        margin-left: 25%;
     }
 
     .collapse-item .el-collapse-item__header {
