@@ -6,7 +6,13 @@
             keyProperty="id" parameterType="com.aiguibin.entities.StudentEntity">
          insert into student (student_num,student_name,student_pass,student_date) values (#{studentNum},#{studentName},#{studentPass},#{studentDate})
     </insert>
-	<select id="getAllStudent" resultType="com.aiguibin.beans.StudentBean">
+    <update id="updateStudentPass">
+        update student set    student_pass = #{password}  where student_num=#{studentNum};
+    </update>
+    <delete id="deleteStudent">
+
+    </delete>
+    <select id="getAllStudent" resultType="com.aiguibin.beans.StudentBean">
 		SELECT s.student_name,i.* FROM student s,student_info i WHERE s.student_num=i.student_num;
 	</select>
     <select id="getStudentEntityByNum" resultType="com.aiguibin.entities.StudentEntity">

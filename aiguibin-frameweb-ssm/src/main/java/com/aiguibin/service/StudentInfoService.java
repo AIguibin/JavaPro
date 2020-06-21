@@ -13,7 +13,7 @@ public class StudentInfoService {
     StudentInfoAccess studentInfoAccess;
 
     public void updateStudentInfo(StudentInfoEntity studentInfoEntity) {
-        studentInfoAccess.updateStudentInfo(studentInfoEntity);
+        studentInfoAccess.updateStudentInfoByNum(studentInfoEntity);
     }
     public void insertStudentInfo(StudentInfoEntity studentInfoEntity) {
         studentInfoAccess.insertStudentInfo(studentInfoEntity);

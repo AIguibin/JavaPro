@@ -15,32 +15,34 @@ public class AdminInfoController {
     private static Logger logger = LogManager.getLogger(AdminInfoController.class);
     @Autowired
     private AdminInfoService adminInfoService;
-
     // 根据管理员账号获取管理员
     @RequestMapping(value = "/getAdminInfo", method = RequestMethod.GET)
     @ResponseBody
     public AdminInfoEntity getAdminInfo(@RequestParam String adminNum) {
         return adminInfoService.getAdminEntityByNum(adminNum);
     }
-
     // 管理员注册
     @RequestMapping(value = "/insertAdminInfo", method = RequestMethod.POST)
     @ResponseBody
     public void insertAdminInfo(@RequestBody AdminInfoEntity insertAdminInfo) {
         adminInfoService.insertAdminInfo(insertAdminInfo);
     }
-
     // 修改密码
-    @RequestMapping(value = "/updateAdminInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateAdminInfo", method = RequestMethod.GET)
     @ResponseBody
-    public void updateAdminInfo(@RequestParam String password, @RequestParam String adminNum) {
+    public void updateAdminInfo(@RequestParam("password") String password, @RequestParam("adminNum") String adminNum) {
         adminInfoService.updateAdminInfo(password, adminNum);
     }
-
-    // 更新学信息
+    // 更新学生信息
     @RequestMapping(value = "/updateStudentInfo", method = RequestMethod.POST)
     @ResponseBody
     public void updateStudentInfo(@RequestBody StudentBean studentBean) {
         adminInfoService.updateStudentInfo(studentBean);
+    }
+    // 删除学生信息
+    @RequestMapping(value = "/deleteStudent", method = RequestMethod.GET)
+    @ResponseBody
+    public void deleteStudent(@RequestParam String studentNum) {
+        adminInfoService.deleteStudent(studentNum);
     }
 }

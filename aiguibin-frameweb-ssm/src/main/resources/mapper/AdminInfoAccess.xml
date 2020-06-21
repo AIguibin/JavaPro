@@ -11,7 +11,7 @@
         select  * from  admin_info where admin_num=#{adminNum};
     </select>
 
-    <update id="updateAdminInfo" parameterType="com.aiguibin.entities.AdminInfoEntity">
-        update  admin_info set admin_pass = #{adminPass)  where id=#{adminNum};
+    <update id="updateAdminInfo">
+        update  admin_info set admin_pass = #{password}  where admin_num=#{adminNum};
     </update>
 </mapper>

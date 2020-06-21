@@ -7,7 +7,12 @@ import org.springframework.stereotype.Repository;
 public interface StudentInfoAccess {
 
 
-    void updateStudentInfo(StudentInfoEntity studentInfoEntity);
+    void updateStudentInfoByNum(StudentInfoEntity studentInfoEntity);
 
     void insertStudentInfo(StudentInfoEntity studentInfoEntity);
+
+
+    void deleteStudent(String studentNum);
+
+    StudentInfoEntity getStudentInfoByNum(String studentNum);
 }

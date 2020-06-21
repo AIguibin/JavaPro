@@ -6,7 +6,7 @@ public class StudentInfoEntity {
     private String studentSex;
     private String studentNation;
     private String studentEmail;
-    private int studentTel;
+    private String studentTel;
     private String studentAdd;
 
     public String getStudentNum() {
@@ -49,11 +49,11 @@ public class StudentInfoEntity {
         this.studentEmail = studentEmail;
     }
 
-    public int getStudentTel() {
+    public String getStudentTel() {
         return studentTel;
     }
 
-    public void setStudentTel(int studentTel) {
+    public void setStudentTel(String studentTel) {
         this.studentTel = studentTel;
     }
 

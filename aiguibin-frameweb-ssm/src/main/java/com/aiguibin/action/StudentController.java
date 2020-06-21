@@ -20,14 +20,13 @@ public class StudentController {
     StudentService studentService;
     @Autowired
     StudentInfoService studentInfoService;
-
-
     // 根据学生账号获取学生
     @RequestMapping(value = "/getStudentInfo", method = RequestMethod.GET)
     @ResponseBody
-    public StudentEntity getStudentInfo(@RequestParam String studentNum) {
+    public StudentBean getStudentInfo(@RequestParam String studentNum) {
         return studentService.getStudentEntityByNum(studentNum);
     }
+    //学生注册
     @RequestMapping(value = "/insertStudent", method = RequestMethod.POST)
     public void insertStudent(@RequestBody StudentBean studentBean) {
         // 保存学生
@@ -48,9 +47,16 @@ public class StudentController {
         studentInfoEntity.setStudentNation(studentBean.getStudentNation());
         studentInfoService.insertStudentInfo(studentInfoEntity);
     }
+    //获取所有学生
     @RequestMapping(value = "/getAllStudent", method = RequestMethod.GET)
     @ResponseBody
     public List<StudentBean> getAllStudent() {
       return   studentService.getAllStudent();
+    }
+    // 学生修改密码
+    @RequestMapping(value = "/updateStudentPass", method = RequestMethod.GET)
+    @ResponseBody
+    public void updateStudentPass(@RequestParam("password") String password, @RequestParam("studentNum") String studentNum) {
+        studentService.updateStudentPass(password, studentNum);
     }
 }

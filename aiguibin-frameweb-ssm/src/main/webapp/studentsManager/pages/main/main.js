@@ -4,15 +4,18 @@ var app = new Vue({
         activeNameArray: 'activeName',
         activeNameString: '',
         collapseTitle: '',
+        formPassData: {},
         tableData: [],
         formData: {},
         userType: '',
         adminNum: '',
         studentNum: '',
-        radio:"",
-        dialogFormVisible:false,
-        formStudentInfo:{},
-        selections:[]
+        radio: "",
+        dialogFormVisible: false,
+        formStudentInfo: {},
+        studentFormData: {},
+        studentPassData:{},
+        selections: []
     },
     mounted: function () {
         console.log(window.location.href);
@@ -37,6 +40,17 @@ var app = new Vue({
         this.userType = getUrlParams('userType')
         this.adminNum = getUrlParams('adminNum')
         this.studentNum = getUrlParams('studentNum')
+
+        if (this.userType=='admin'){
+            var menuItem={
+                index:'1'
+            }
+        } else{
+            var menuItem={
+                index:'5'
+            }
+        }
+        this.selectFn(menuItem);
     },
     methods: {
 
@@ -44,7 +58,7 @@ var app = new Vue({
             if (menuItem.index == '1') {
                 this.collapseTitle = '个人中心';
                 this.activeNameString = 'adminInfo'
-                this.formData = this.getFormDataFn(this.userType, this.adminNum);
+                this.formData = this.getFormDataFn(this.userType, this.adminNum)||{};
             }
             if (menuItem.index == '2') {
                 this.collapseTitle = '考生信息';
@@ -54,7 +68,7 @@ var app = new Vue({
             if (menuItem.index == '5') {
                 this.collapseTitle = '个人中心';
                 this.activeNameString = 'studentInfo'
-                this.tableData = this.getFormDataFn(this.userType, this.studentNum);
+                this.studentFormData = this.getFormDataFn(this.userType, this.studentNum)||{};
             }
             if (menuItem.index == '3' || menuItem.index == '6') {
                 this.collapseTitle = '修改密码';
@@ -77,23 +91,48 @@ var app = new Vue({
         },
         // 编辑学生信息
         adminEdit() {
-            var _this=this;
-            if (_this.selections.length!=1) {
+            var _this = this;
+            if (_this.selections.length != 1) {
                 _this.$message({
                     message: '请选择一条数据',
                     type: 'warning'
                 });
                 return;
             }
-            _this.dialogFormVisible=true;
+            _this.dialogFormVisible = true;
             _this.$nextTick(function () {
-                _this.formStudentInfo=_this.selections[0];
+                _this.formStudentInfo = _this.selections[0];
             })
+        },
+        saveStudentInfo() {
+            var _this = this;
+            $.ajax({
+                url: "/user/updateStudentInfo",
+                contentType: "application/json;charset=UTF-8",
+                type: "POST",
+                data: JSON.stringify(_this.formStudentInfo),
+                async: false,
+                success: function (result) {
+                    _this.$nextTick(function () {
+                        $.ajax({
+                            url: "/student/getAllStudent",
+                            type: "GET",
+                            async: false,
+                            success: function (result) {
+                                _this.$nextTick(function () {
+                                    _this.tableData = result;
+                                    _this.dialogFormVisible = false;
+                                })
+                            }
+                        });
+                    })
+                }
+            });
         },
         // 删除学生信息
         adminDelete() {
-            var _this=this;
-            if (_this.selections.length!=1) {
+            var _this = this;
+            if (_this.selections.length != 1) {
                 _this.$message({
                     message: '请选择一条数据',
                     type: 'warning'
@@ -101,16 +140,14 @@ var app = new Vue({
                 return;
             }
             $.ajax({
-                url: "/student/getAllStudent",
-                type: "POST",
-                async: false,
+                url: "/user/deleteStudent?studentNum=" + _this.selections[0].studentNum,
+                type: "GET",
                 success: function (result) {
                     // 刷新学生信息表
                     _this.$nextTick(function () {
                         $.ajax({
                             url: "/student/getAllStudent",
                             type: "GET",
-                            async: false,
                             success: function (result) {
                                 _this.$nextTick(function () {
                                     _this.tableData = result;
@@ -128,7 +165,7 @@ var app = new Vue({
             console.log(index, row);
         },
         getCurrentRow: function (row) {
-            this.selections=[];
+            this.selections = [];
             this.selections.push(row);
         },
         getTableDataFn: function () {
@@ -150,15 +187,71 @@ var app = new Vue({
             $.ajax({
                 url: requestUrl + userNum,
                 type: "GET",
+                async:false,
                 success: function (result) {
                     _this.$nextTick(function () {
+                        if (userType == "admin") {
                         _this.formData = result;
+                        }else{
+                            _this.studentFormData=result;
+                        }
                     })
                 }
             });
         },
-        saveFn: function () {
-
+        updatePass: function () {
+            var _this = this;
+            if (_this.formPassData.oldPassWord != '123456') {
+                _this.$message({
+                    message: '原密码错误，请重新输入原密码',
+                    type: 'warning'
+                });
+                return;
+            }
+            if (_this.formPassData.adminPass != _this.formPassData.adminPassAgain) {
+                _this.$message({
+                    message: '两次输入不一致，请重新输入密码',
+                    type: 'warning'
+                });
+                return;
+            }
+            $.ajax({
+                url: "/user/updateAdminInfo?password=" + _this.formPassData.adminPass + "&adminNum=admin",
+                type: "GET",
+                success: function (result) {
+                    _this.$message({
+                        message: '密码修改成功',
+                        type: 'success'
+                    });
+                }
+            });
+        },
+        updateStudentPass:function () {
+            var _this = this;
+            if (_this.studentPassData.oldPassWord != '123456') {
+                _this.$message({
+                    message: '原密码错误，请重新输入原密码',
+                    type: 'warning'
+                });
+                return;
+            }
+            if (_this.studentPassData.studentPass != _this.studentPassData.studentPassAgain) {
+                _this.$message({
+                    message: '两次输入不一致，请重新输入密码',
+                    type: 'warning'
+                });
+                return;
+            }
+            $.ajax({
+                url: "/student/updateStudentPass?password=" + _this.studentPassData.studentPass + "&studentNum=student",
+                type: "GET",
+                success: function (result) {
+                    _this.$message({
+                        message: '密码修改成功',
+                        type: 'success'
+                    });
+                }
+            });
         }
     }
 })

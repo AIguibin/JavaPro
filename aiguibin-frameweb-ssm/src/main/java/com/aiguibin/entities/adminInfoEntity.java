@@ -7,9 +7,9 @@ public class AdminInfoEntity {
     private int  id;
     private String adminNum;
     private String adminName;
-    private int adminPass;
+    private String adminPass;
     private int adminAge;
-    private int adminTel;
+    private String adminTel;
     private String adminAdd;
     private String adminSex;
     private Date adminDate;
@@ -38,11 +38,11 @@ public class AdminInfoEntity {
         this.adminName = adminName;
     }
 
-    public int getAdminPass() {
+    public String getAdminPass() {
         return adminPass;
     }
 
-    public void setAdminPass(int adminPass) {
+    public void setAdminPass(String adminPass) {
         this.adminPass = adminPass;
     }
 
@@ -54,11 +54,11 @@ public class AdminInfoEntity {
         this.adminAge = adminAge;
     }
 
-    public int getAdminTel() {
+    public String getAdminTel() {
         return adminTel;
     }
 
-    public void setAdminTel(int adminTel) {
+    public void setAdminTel(String adminTel) {
         this.adminTel = adminTel;
     }
 

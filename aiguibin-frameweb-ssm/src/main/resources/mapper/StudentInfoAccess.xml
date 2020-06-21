@@ -2,10 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aiguibin.access.StudentInfoAccess">
-
-    <update id="updateStudentInfo" parameterType="com.aiguibin.entities.StudentInfoEntity">
-        update  student_info set admin_pass = #{adminPass)  where student_num=#{studentNum};
+    <update id="updateStudentInfoByNum" parameterType="com.aiguibin.entities.StudentInfoEntity">
+        update  student_info set student_age = #{studentAge}, student_sex = #{studentSex}, student_nation = #{studentNation}, student_email = #{studentEmail},student_tel = #{studentTel},student_add = #{studentAdd} where student_num = #{studentNum};
     </update>
+    <delete id="deleteStudent" parameterType="com.aiguibin.entities.StudentInfoEntity">
+        DELETE FROM student_info WHERE student_num=#{studentNum};
+    </delete>
+    <select id="getStudentInfoByNum" resultType="com.aiguibin.entities.StudentInfoEntity">
+        select * from student_info where student_num=#{studentNum};
+    </select>
     <insert id="insertStudentInfo" parameterType="com.aiguibin.entities.StudentInfoEntity">
          insert into student_info (student_num,student_age,student_sex,student_nation,student_email,student_tel,student_add)
          values (#{studentNum},#{studentAge},#{studentSex},#{studentNation},#{studentEmail},#{studentTel},#{studentAdd})
