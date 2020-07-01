@@ -335,14 +335,14 @@
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>6.0.6</version>
+                <version>8.0.16</version>
                 <scope>provided</scope>
             </dependency>
             <!--driverClass=com.mysql.cj.jdbc.Driver-->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.15</version>
+                <version>8.0.16</version>
 				<scope>compile</scope>
             </dependency>
             <dependency>
